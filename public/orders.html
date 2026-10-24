@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-stone-950 text-stone-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Paradise - Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body class="h-full flex flex-col justify-between bg-cover bg-center bg-no-repeat bg-fixed relative" style="background-image: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.88)), url('/img/coffee_img_index.png');">
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800/80 p-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="index.html" class="font-bold text-amber-500 text-lg flex items-center gap-2 hover:opacity-90 transition">
+            <i class="fa-solid fa-mug-hot"></i> Coffee Paradise
+        </a>
+        <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="catalog.html" class="hover:text-amber-500 transition">Catalog</a>
+            <a href="orders.html" class="text-amber-500 font-bold transition">Orders</a>
+            <a href="login.html" class="hover:text-amber-500 transition">Login</a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 text-stone-950 font-bold rounded transition">Register</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-4xl mx-auto w-full p-6 sm:p-8 my-auto">
+        <div class="bg-stone-900/80 backdrop-blur-md border border-stone-700/50 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6">
+            
+            <div class="flex justify-between items-center border-b border-stone-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-100 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-amber-500"></i> Order History
+                    </h2>
+                    <p class="text-xs text-stone-400 mt-1">View past transactions and pickup instructions</p>
+                </div>
+                <a href="catalog.html" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition flex items-center gap-2 shadow-md">
+                    <span>Browse Catalog</span>
+                </a>
+            </div>
+
+            <!-- ORDERS CONTAINER -->
+            <div id="orders-container" class="space-y-4"></div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="p-4 text-center text-xs text-stone-400 bg-stone-900/90 backdrop-blur-md border-t border-stone-800">
+        SWE40006 DevOps Application &copy; 2026 Coffee Paradise Malaysia
+    </footer>
+
+    <script src="auth-guard.js"></script>
+    <script>
+        function getCurrentUser() {
+            try {
+                return JSON.parse(localStorage.getItem('currentUser') || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        async function processStripeRedirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            const currentUser = getCurrentUser();
+
+            if (sessionId && currentUser.id) {
+                const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const computedTotal = currentCart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+                const finalTotal = computedTotal > 0 ? computedTotal : 18.00;
+
+                const defaultItems = [
+                    { name: 'Ethiopian Yirgacheffe', price: 18.00, quantity: 1 }
+                ];
+
+                const newOrderPayload = {
+                    userId: currentUser.id,
+                    orderNumber: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+                    items: currentCart.length > 0 ? currentCart : defaultItems,
+                    totalAmount: finalTotal
+                };
+
+                try {
+                    await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newOrderPayload)
+                    });
+
+                    localStorage.removeItem('cart');
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } catch (err) {
+                    console.error('Failed to post order to PostgreSQL:', err);
+                }
+            }
+        }
+
+        async function renderOrders() {
+            const container = document.getElementById('orders-container');
+            const currentUser = getCurrentUser();
+
+            if (!currentUser || !currentUser.id) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-stone-500">
+                        <p class="text-sm font-semibold text-stone-400">Please log in to view your orders.</p>
+                    </div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/orders', {
+                    headers: { 'user-id': currentUser.id }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Server returned status ' + response.status);
+                }
+
+                const orders = await response.json();
+
+                if (!orders || orders.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-12 text-stone-500 space-y-3">
+                            <i class="fa-solid fa-receipt text-4xl text-stone-700"></i>
+                            <p class="text-sm font-semibold text-stone-400">No order history found.</p>
+                            <p class="text-xs text-stone-600">Complete a checkout from the catalog to view your purchases here.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = orders.map(order => {
+                    const itemsList = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+                    const orderDate = order.created_at ? new Date(order.created_at).toLocaleDateString('en-MY', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recently placed';
+
+                    return `
+                        <div class="bg-stone-950/70 border border-stone-800 p-5 rounded-2xl space-y-4 shadow-lg">
+                            <div class="flex flex-wrap justify-between items-center border-b border-stone-800/80 pb-3 gap-2">
+                                <div>
+                                    <span class="text-xs text-stone-400 font-mono font-bold">${order.order_number}</span>
+                                    <div class="text-[11px] text-stone-500 mt-0.5">${orderDate}</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1.5">
+                                        <i class="fa-solid fa-store text-xs"></i>
+                                        ${order.fulfillment_status || 'Collect item in store'}
+                                    </span>
+                                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-bold">
+                                        ${order.payment_status || 'Paid via Stripe'}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                ${(itemsList || []).map(item => `
+                                    <div class="flex justify-between items-center text-xs text-stone-300">
+                                        <span>${item.name} <span class="text-stone-500 font-semibold">x${item.quantity || 1}</span></span>
+                                        <span class="font-mono text-stone-400">RM ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="border-t border-stone-800/80 pt-3 flex justify-between items-center">
+                                <span class="text-xs text-stone-400 font-medium">Total Paid</span>
+                                <span class="text-amber-500 font-extrabold text-base">RM ${Number(order.total_amount || 0).toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Error fetching orders:', err);
+                container.innerHTML = `<p class="text-xs text-rose-500 text-center">Failed to load orders from database.</p>`;
+            }
+        }
+
+        (async () => {
+            await processStripeRedirect();
+            await renderOrders();
+        })();
+    </script>
+</body>
+</html>

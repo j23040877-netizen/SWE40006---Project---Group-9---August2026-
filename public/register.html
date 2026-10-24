@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-stone-950 text-stone-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Paradise - Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body class="h-full flex items-center justify-center bg-cover bg-center bg-no-repeat bg-fixed relative" style="background-image: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.88)), url('/img/coffee_img_index.png');">
+    <div class="bg-stone-900/80 backdrop-blur-md border border-stone-800 p-8 rounded-2xl w-full max-w-md space-y-4 shadow-2xl">
+        <h2 class="text-2xl font-bold text-stone-100 text-center flex items-center justify-center gap-2">
+            <i class="fa-solid fa-mug-hot text-amber-500"></i> Register Account
+        </h2>
+        <form onsubmit="handleRegister(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs mb-1 text-stone-400">Full Name</label>
+                <input type="text" id="reg-name" required class="w-full bg-stone-950/80 border border-stone-700 rounded p-2 text-stone-100 text-sm focus:border-amber-500 outline-none">
+            </div>
+            <div>
+                <label class="block text-xs mb-1 text-stone-400">Email</label>
+                <input type="email" id="reg-email" required class="w-full bg-stone-950/80 border border-stone-700 rounded p-2 text-stone-100 text-sm focus:border-amber-500 outline-none">
+            </div>
+            <div>
+                <label class="block text-xs mb-1 text-stone-400">Password</label>
+                <input type="password" id="reg-password" required class="w-full bg-stone-950/80 border border-stone-700 rounded p-2 text-stone-100 text-sm focus:border-amber-500 outline-none">
+            </div>
+            <button type="submit" id="reg-btn" class="w-full bg-amber-600 hover:bg-amber-500 font-bold text-stone-950 py-2 rounded text-sm transition">
+                Create Account
+            </button>
+        </form>
+        <p class="text-xs text-center text-stone-400">
+            Already have an account? <a href="login.html" class="text-amber-500 hover:underline">Log in here</a>
+        </p>
+    </div>
+
+    <script>
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn');
+            btn.innerText = 'Creating Account...';
+
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            try {
+                // Posts registration data directly to PostgreSQL
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await res.json();
+
+                if (data.success && data.user) {
+                    // Save full user object (with database id) to currentUser
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    alert('Registration successful!');
+                    window.location.href = 'catalog.html';
+                } else {
+                    alert('Registration failed: ' + (data.error || 'User already exists'));
+                    btn.innerText = 'Create Account';
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Cannot connect to backend server on port 3000.');
+                btn.innerText = 'Create Account';
+            }
+        }
+    </script>
+</body>
+</html>

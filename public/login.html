@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full text-stone-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Paradise - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body class="h-full flex flex-col justify-between bg-cover bg-center bg-no-repeat bg-fixed relative" style="background-image: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.88)), url('/img/coffee_img_index.png');">
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800/80 p-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="index.html" class="font-bold text-amber-500 text-lg flex items-center gap-2 hover:opacity-90 transition">
+            <i class="fa-solid fa-mug-hot"></i> Coffee Paradise
+        </a>
+        <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="catalog.html" class="hover:text-amber-500 transition">Catalog</a>
+            <a href="orders.html" class="hover:text-amber-500 transition">Orders</a>
+            <a href="login.html" class="text-amber-500 font-semibold transition">Login</a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 text-stone-950 font-bold rounded transition">Register</a>
+        </nav>
+    </header>
+
+    <!-- MAIN LOGIN CARD -->
+    <main class="max-w-md w-full mx-auto p-6 my-auto">
+        <div class="bg-stone-900/80 backdrop-blur-md border border-stone-700/50 p-8 rounded-3xl shadow-2xl space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-3xl font-extrabold text-stone-100">Member Login</h2>
+                <p class="text-xs text-stone-400">Sign in to complete your orders and view history</p>
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs mb-1 text-stone-400 font-medium">Email Address</label>
+                    <input type="email" id="email" required placeholder="user@example.com" class="w-full bg-stone-950/80 border border-stone-700 rounded-xl p-3 text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition">
+                </div>
+                <div>
+                    <label class="block text-xs mb-1 text-stone-400 font-medium">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••" class="w-full bg-stone-950/80 border border-stone-700 rounded-xl p-3 text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition">
+                </div>
+                <button type="submit" id="login-btn" class="w-full bg-amber-600 hover:bg-amber-500 font-bold text-stone-950 py-3 rounded-xl text-sm transition shadow-lg">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="text-center text-xs text-stone-400 pt-2 border-t border-stone-800">
+                <span>Don't have an account? </span>
+                <a href="register.html" class="text-amber-500 hover:underline font-semibold">Register here</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="p-4 text-center text-xs text-stone-400 bg-stone-900/90 backdrop-blur-md border-t border-stone-800">
+        SWE40006 DevOps Application &copy; 2026 Coffee Paradise Malaysia
+    </footer>
+
+    <script src="auth-guard.js"></script>
+    <script>
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-btn');
+            btn.innerText = 'Signing In...';
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (data.success && data.user) {
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'catalog.html';
+                    window.location.href = redirectUrl;
+                } else {
+                    alert('Login failed: ' + (data.error || 'Invalid credentials'));
+                    btn.innerText = 'Sign In';
+                }
+            } catch (err) {
+                console.error('Server connection error:', err);
+                alert('Cannot connect to backend server on port 3000. Please verify Docker containers are running.');
+                btn.innerText = 'Sign In';
+            }
+        }
+    </script>
+</body>
+</html>

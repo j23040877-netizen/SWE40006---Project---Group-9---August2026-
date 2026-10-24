@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full text-stone-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Paradise - Catalog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body class="h-full flex flex-col justify-between bg-cover bg-center bg-no-repeat bg-fixed relative" style="background-image: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.88)), url('/img/coffee_img_index.png');">
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800/80 p-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="index.html" class="font-bold text-amber-500 text-lg flex items-center gap-2 hover:opacity-90 transition">
+            <i class="fa-solid fa-mug-hot"></i> Coffee Paradise
+        </a>
+        <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="catalog.html" class="text-amber-500 font-semibold transition">Catalog</a>
+            <a href="orders.html" class="hover:text-amber-500 transition">Orders</a>
+            <a href="login.html" class="hover:text-amber-500 transition">Login</a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 text-stone-950 font-bold rounded transition">Register</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-5xl mx-auto w-full p-6 sm:p-8 my-auto space-y-6">
+        <div class="bg-stone-900/80 backdrop-blur-md border border-stone-700/50 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6">
+            
+            <div class="flex justify-between items-center border-b border-stone-800 pb-4">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-stone-100">Coffee & Treats Catalog</h1>
+                    <p class="text-xs text-stone-400">Select your artisanal roasts, fresh bakes, and proceed to checkout.</p>
+                </div>
+                <a href="checkout.html" onclick="goToCheckout(event)" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-2 rounded-xl transition flex items-center gap-2 shadow-md text-sm">
+                    <span>Go to Checkout</span>
+                    <i class="fa-solid fa-cart-shopping text-xs"></i>
+                </a>
+            </div>
+
+            <!-- CATALOG CARDS GRID (10 ITEMS) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                
+                <!-- ITEM 1 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Espresso Blend Supreme.png.jfif" alt="Espresso Blend Supreme" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Espresso Blend Supreme</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 14.50</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Dark roast with rich notes of dark cocoa and toasted hazelnut.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Espresso Blend Supreme', 14.50)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 2 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Ethiopian Yirgacheffe.jpg" alt="Ethiopian Yirgacheffe" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Ethiopian Yirgacheffe</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 18.00</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Light roast featuring delicate floral aromas and subtle citrus acidity.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Ethiopian Yirgacheffe', 18.00)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 3 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Colombian Supremo Roast.png" alt="Colombian Supremo Roast" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Colombian Supremo Roast</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 16.00</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Medium roast balanced with sweet caramel undertones and a nutty finish.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Colombian Supremo Roast', 16.00)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 4 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Sumatra Mandheling.jpg" alt="Sumatra Mandheling" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Sumatra Mandheling</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 17.50</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Full-bodied dark roast with earthy notes, low acidity, and herbal aromatics.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Sumatra Mandheling', 17.50)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 5 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Guatemalan Antigua.png" alt="Guatemalan Antigua" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Guatemalan Antigua</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 19.00</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Medium-dark roast with complex chocolate tones, spicy aroma, and silky body.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Guatemalan Antigua', 19.00)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 6 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/French Roast Organic.png" alt="French Roast Organic" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">French Roast Organic</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 15.00</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Intense dark roast with smoky richness, bold flavor, and a long finish.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('French Roast Organic', 15.00)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 7 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Kenyan AA Single Origin.png" alt="Kenyan AA Single Origin" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Kenyan AA Single Origin</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 21.00</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Vibrant medium roast with bright blackberry notes and wine-like acidity.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Kenyan AA Single Origin', 21.00)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 8 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Vanilla Hazelnut Cold Brew.png" alt="Vanilla Hazelnut Cold Brew" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Vanilla Hazelnut Cold Brew</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 13.50</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Smooth infused cold brew blend with aromatic Madagascar vanilla and hazelnut.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Vanilla Hazelnut Cold Brew', 13.50)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 9 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Chocolate Fudge Cake.jpg" alt="Chocolate Fudge Cake" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Chocolate Fudge Cake</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 12.00</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Decadent layered dark chocolate cake paired perfectly with our artisanal espresso.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Chocolate Fudge Cake', 12.00)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ITEM 10 -->
+                <div class="bg-stone-950/60 border border-stone-800 p-6 rounded-2xl space-y-4 hover:border-amber-500/50 transition flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-full h-52 bg-stone-900/80 rounded-xl overflow-hidden border border-stone-800/80 p-2 flex items-center justify-center">
+                            <img src="img/Butter Croissant.jpg" alt="Butter Croissant" class="max-h-full max-w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg text-stone-100">Butter Croissant</h3>
+                            <span class="text-amber-500 font-extrabold text-lg">RM 8.50</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">Flaky, golden-baked French croissant made with premium cultured butter.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="addToCart('Butter Croissant', 8.50)" class="w-full bg-stone-800/90 hover:bg-amber-600 hover:text-stone-950 border border-stone-700 font-semibold px-4 py-2 rounded-xl text-xs transition flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="p-4 text-center text-xs text-stone-400 bg-stone-900/90 backdrop-blur-md border-t border-stone-800">
+        SWE40006 DevOps Application &copy; 2026 Coffee Paradise Malaysia
+    </footer>
+
+    <script src="auth-guard.js"></script>
+    <script>
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.push({ name, price, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${name} added to cart!`);
+        }
+
+        function goToCheckout(event) {
+            const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (!user) {
+                event.preventDefault();
+                alert('Please log in first before going to checkout!');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

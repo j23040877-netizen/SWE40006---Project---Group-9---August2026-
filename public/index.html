@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full text-stone-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Coffee Paradise - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body class="h-full flex flex-col justify-between bg-cover bg-center bg-no-repeat bg-fixed relative" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.7)), url('/img/coffee_img_index.png');">
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800/80 p-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="index.html" class="font-bold text-amber-500 text-lg flex items-center gap-2">
+            <i class="fa-solid fa-mug-hot"></i> Coffee Paradise
+        </a>
+        <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="catalog.html" class="hover:text-amber-500 transition">Catalog</a>
+            <a href="orders.html" class="hover:text-amber-500 transition">Orders</a>
+            <a href="login.html" class="hover:text-amber-500 transition">Login</a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 text-stone-950 font-bold rounded transition">Register</a>
+        </nav>
+    </header>
+
+    <!-- MAIN HERO SECTION -->
+    <main class="max-w-4xl mx-auto p-6 sm:p-10 my-auto text-center space-y-6">
+        <!-- GLASS CARD CONTAINER -->
+        <div class="bg-stone-900/80 backdrop-blur-md border border-stone-700/50 p-8 sm:p-12 rounded-3xl shadow-2xl space-y-6">
+            
+            <span class="inline-block text-amber-400 border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+                DevOps CI/CD Integrated
+            </span>
+
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-stone-100 tracking-tight leading-tight">
+                Crafted Coffee Delivered Fresh to Your Door
+            </h1>
+
+            <p class="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto">
+                Sourced from ethical single-origin farms, micro-roasted in small batches, and delivered to ensure maximum freshness in every cup.
+            </p>
+
+            <!-- CALL TO ACTION BUTTONS -->
+            <div class="flex flex-wrap justify-center gap-4 pt-2">
+                <a href="catalog.html" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg">
+                    <span>Explore Catalog</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+                <a href="register.html" class="bg-stone-800/90 hover:bg-stone-700 border border-stone-600 text-stone-200 font-semibold px-6 py-3 rounded-xl transition">
+                    Create Account
+                </a>
+            </div>
+
+            <!-- HYPERLINKS (YOUTUBE & EMAIL) -->
+            <div class="pt-6 border-t border-stone-800/80 flex flex-wrap justify-center items-center gap-6 text-xs text-stone-400">
+                <a href="https://www.youtube.com/watch?v=F8TbR5VL2Cw" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition flex items-center gap-1.5">
+                    <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+                    <span>History of Coffee</span>
+                </a>
+                <span class="text-stone-700">•</span>
+                <a href="https://www.youtube.com/watch?v=vFcS080VYQ0" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition flex items-center gap-1.5">
+                    <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+                    <span>Coffee Brewing Guide</span>
+                </a>
+                <span class="text-stone-700">•</span>
+                <a href="mailto:support@coffeeparadise.com" class="hover:text-amber-400 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-envelope text-amber-500"></i>
+                    <span>Email Coffee Paradise</span>
+                </a>
+            </div>
+
+            <!-- HYPERLINKED MALAYSIA LOCATION -->
+            <div class="text-xs text-stone-400 pt-2 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-location-dot text-amber-500"></i>
+                <a href="https://www.google.com/maps/search/?api=1&query=SS15+Subang+Jaya+Selangor+Malaysia" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 underline decoration-amber-500/40 transition">
+                    <strong>Visit Us:</strong> No. 42, Jalan SS 15/4B, 47500 Subang Jaya, Selangor, Malaysia
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="p-4 text-center text-xs text-stone-400 bg-stone-900/90 backdrop-blur-md border-t border-stone-800">
+        SWE40006 DevOps Application &copy; 2026 Coffee Paradise
+    </footer>
+
+    <script src="auth-guard.js"></script>
+</body>
+</html>

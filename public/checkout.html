@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-stone-950 text-stone-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Paradise - Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body class="h-full flex flex-col justify-between bg-cover bg-center bg-no-repeat bg-fixed relative" style="background-image: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.88)), url('/img/coffee_img_index.png');">
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800/80 p-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="index.html" class="font-bold text-amber-500 text-lg flex items-center gap-2 hover:opacity-90 transition">
+            <i class="fa-solid fa-mug-hot"></i> Coffee Paradise
+        </a>
+        <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="catalog.html" class="hover:text-amber-500 transition">Catalog</a>
+            <a href="orders.html" class="hover:text-amber-500 transition">Orders</a>
+            <a href="login.html" class="hover:text-amber-500 transition">Login</a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-500 px-3 py-1 text-stone-950 font-bold rounded transition">Register</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-3xl mx-auto w-full p-6 sm:p-8 my-auto">
+        <div class="bg-stone-900/80 backdrop-blur-md border border-stone-700/50 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6">
+            
+            <div class="flex justify-between items-center border-b border-stone-800 pb-4">
+                <h2 class="text-2xl font-bold text-stone-100 flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-amber-500"></i> Checkout
+                </h2>
+                <a href="catalog.html" class="bg-stone-800 hover:bg-amber-600 hover:text-stone-950 text-amber-500 border border-amber-500/40 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Catalog</span>
+                </a>
+            </div>
+
+            <!-- CART ITEMS LIST -->
+            <div id="cart-list" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
+
+            <!-- TOTAL SUMMARY -->
+            <div class="border-t border-stone-800 pt-4 flex justify-between items-center text-sm font-bold">
+                <span class="text-stone-400">Total Due:</span>
+                <span id="total-amount" class="text-amber-500 text-xl font-extrabold">RM 0.00</span>
+            </div>
+
+            <!-- PAY BUTTON -->
+            <button id="pay-btn" onclick="redirectToStripe()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg flex justify-center items-center gap-2">
+                <i class="fa-brands fa-stripe text-base"></i>
+                <span id="btn-text">Pay Now via Real Stripe</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="p-4 text-center text-xs text-stone-400 bg-stone-900/90 backdrop-blur-md border-t border-stone-800">
+        SWE40006 DevOps Application &copy; 2026 Coffee Paradise Malaysia
+    </footer>
+
+    <script src="auth-guard.js"></script>
+    <script>
+        let cart = [];
+
+        function loadCart() {
+            cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartList = document.getElementById('cart-list');
+            const totalAmount = document.getElementById('total-amount');
+
+            if (cart.length === 0) {
+                cartList.innerHTML = `<div class="text-center py-8 text-stone-500 text-xs">Your cart is currently empty.</div>`;
+                totalAmount.innerText = 'RM 0.00';
+                return;
+            }
+
+            cartList.innerHTML = cart.map((item, index) => `
+                <div class="flex justify-between items-center bg-stone-950/60 border border-stone-800 p-3 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-stone-200 text-xs sm:text-sm">${item.name}</span>
+                        <span class="text-amber-500 text-xs font-semibold">RM ${Number(item.price).toFixed(2)}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center border border-stone-700 rounded-lg overflow-hidden bg-stone-900">
+                            <button onclick="updateQuantity(${index}, -1)" class="px-2 py-1 text-stone-400 hover:bg-stone-800 hover:text-white transition text-xs font-bold">-</button>
+                            <span class="px-3 text-xs font-bold text-stone-200">${item.quantity || 1}</span>
+                            <button onclick="updateQuantity(${index}, 1)" class="px-2 py-1 text-stone-400 hover:bg-stone-800 hover:text-white transition text-xs font-bold">+</button>
+                        </div>
+                        <button onclick="removeItem(${index})" class="text-stone-500 hover:text-rose-400 transition text-xs p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+            totalAmount.innerText = `RM ${total.toFixed(2)}`;
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity = (cart[index].quantity || 1) + change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        async function redirectToStripe() {
+            if (cart.length === 0) return alert('Your cart is empty!');
+
+            const btnText = document.getElementById('btn-text');
+            btnText.innerText = 'Connecting to Stripe...';
+
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+            try {
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        items: cart,
+                        userId: user.id || null 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('Error creating Stripe session: ' + (data.error || 'Unknown error'));
+                    btnText.innerText = 'Pay Now via Real Stripe';
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Backend server not responding. Ensure Docker containers are running on port 3000.');
+                btnText.innerText = 'Pay Now via Real Stripe';
+            }
+        }
+
+        loadCart();
+    </script>
+</body>
+</html>
