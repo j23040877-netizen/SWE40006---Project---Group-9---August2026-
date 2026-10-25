@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "lint": "htmlhint public/*.html",
+    "lint": "htmlhint \"public/*.html\"",
+    "test": "npm run lint",
     "test:e2e": "cypress run"
   },
   "dependencies": {
