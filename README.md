@@ -30,6 +30,18 @@ The application architecture features:
 
 ---
 
+## ☁️ Live Azure Multi-Environment Endpoints
+
+Each environment is hosted on an isolated Linux Virtual Machine within `vnet-coffeeparadise` on Microsoft Azure:
+
+| Environment | VM Hostname | Static Public IP | Live Application URL |
+| :--- | :--- | :--- | :--- |
+| **Production** | `prod-vm` | `20.6.232.24` | [http://20.6.232.24:3000](http://20.6.232.24:3000) |
+| **Testing / Staging** | `test-vm` | `20.6.232.144` | [http://20.6.232.144:3000](http://20.6.232.144:3000) |
+| **Development** | `dev-vm` | `20.2.212.31` | [http://20.2.212.31:3000](http://20.2.212.31:3000) |
+
+---
+
 ## 🔍 How to Verify Each Tool (DevOps Verification Guide)
 
 Use this reference table and verification commands during grading, demonstrations, or team testing:
@@ -155,15 +167,44 @@ The repository includes a declarative `Jenkinsfile` executing 7 automated stages
 1. **1. Checkout Code:** Pulls latest commits from the GitHub repository via Webhooks.
 2. **2. Static Analysis & Linting:** Runs HTMLHint on all markup templates (`npx htmlhint "**/*.html"`).
 3. **3. Build Docker Containers:** Builds fresh container images for Node.js and PostgreSQL.
-4. **4. Deploy to Dev VM:** Deploys containerized app to `dev.coffeeparadise.internal`.
-5. **5. Deploy to Staging & Run Cypress:** Deploys to `test.coffeeparadise.internal` and triggers headless Cypress E2E tests.
-6. **6. Promote & Deploy to Prod VM:** Upon 100% test pass rate, automatically promotes release to `prod.coffeeparadise.internal`.
+4. **4. Deploy to Dev VM (`20.2.212.31`):** Deploys containerized app to developer sandbox.
+5. **5. Deploy to Staging & Run Cypress (`20.6.232.144`):** Deploys to test VM and triggers headless Cypress E2E tests.
+6. **6. Promote & Deploy to Prod VM (`20.6.232.24`):** Upon 100% test pass rate, automatically promotes release to production.
 7. **7. Production Health Check:** Verifies HTTP 200 response on live production endpoint.
+
+---
+
+## 📁 Repository Structure
+
+```text
+├── .env                          # Environment variables (Stripe secret key, Port)
+├── .github/workflows/            # GitHub Actions integration
+├── cypress/
+│   └── e2e/
+│       └── user-journey.cy.js    # Cypress E2E test suite (Register → Checkout)
+├── cypress.config.js             # Cypress headless runner configuration
+├── docker-compose.yml            # Multi-container orchestration (Web + PostgreSQL)
+├── Dockerfile                    # Container definition for Node.js API
+├── Jenkinsfile                   # 7-stage declarative CI/CD pipeline
+├── package.json                  # Dependencies & npm scripts
+├── public/                       # Frontend application assets
+│   ├── auth-guard.js             # Client-side session protection
+│   ├── catalog.html              # Product selection page
+│   ├── checkout.html             # Checkout & Stripe trigger page
+│   ├── index.html                # Storefront landing page
+│   ├── login.html                # Member authentication page
+│   ├── orders.html               # Order history & receipts
+│   ├── register.html             # New customer registration page
+│   └── users.sql                 # SQL diagnostic script
+├── README.md                     # Project documentation
+└── server.js                     # Express API & Stripe payment endpoints
+```
 
 ---
 
 ## ☁️ Azure Cloud Infrastructure
 
 * **Host Provider:** Microsoft Azure (Azure for Students).
-* **Network Topology:** 3 isolated Linux VMs (`dev-vm`, `test-vm`, `prod-vm`) and 1 dedicated Jenkins build host inside a single Azure Virtual Network (VNet).
+* **Network Topology:** 3 isolated Linux VMs (`dev-vm`, `test-vm`, `prod-vm`) and 1 dedicated Jenkins build host inside a single Azure Virtual Network (`vnet-coffeeparadise`).
+* **Security & Ingress:** NSG rules configured allowing inbound traffic on Port 3000 (HTTP) and Port 22 (SSH).
 * **Production Telemetry:** Azure Monitor actively tracking hypervisor metrics (CPU %, RAM, Disk I/O, Network Throughput) on `prod-vm` with near-zero overhead.
