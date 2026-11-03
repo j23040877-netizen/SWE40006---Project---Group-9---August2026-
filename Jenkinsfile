@@ -5,9 +5,9 @@ pipeline {
         APP_NAME = 'coffee-paradise'
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
         // Azure VM Host Credentials / IP Addresses defined in Jenkins Global Variables
-        DEV_VM_SSH  = 'azureuser@dev.coffeeparadise.internal'
-        TEST_VM_SSH = 'azureuser@test.coffeeparadise.internal'
-        PROD_VM_SSH = 'azureuser@prod.coffeeparadise.internal'
+        DEV_VM_SSH  = 'azureuser@20.2.212.31'
+        TEST_VM_SSH = 'azureuser@20.6.232.144'
+        PROD_VM_SSH = 'azureuser@20.6.232.24'
     }
 
     stages {
