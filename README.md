@@ -34,19 +34,11 @@ The application architecture features:
 
 Each environment is hosted on an isolated Linux Virtual Machine within `vnet-coffeeparadise` on Microsoft Azure:
 
-<<<<<<< HEAD
-| Environment | VM Hostname | Static Public IP | Live Application URL |
-| :--- | :--- | :--- | :--- |
-| **Production** | `prod-vm` | `20.6.232.24` | [http://20.6.232.24:3000](http://20.6.232.24:3000) |
-| **Testing / Staging** | `test-vm` | `20.6.232.144` | [http://20.6.232.144:3000](http://20.6.232.144:3000) |
-| **Development** | `dev-vm` | `20.2.212.31` | [http://20.2.212.31:3000](http://20.2.212.31:3000) |
-=======
 | Environment | VM Hostname | Static Public IP | Live Application URL | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Production** | `prod-vm` | `20.6.232.24` | [http://20.6.232.24:3000](http://20.6.232.24:3000) | Live 24/7 (Nov 13 – Dec 22) |
 | **Testing / Staging** | `test-vm` | `20.6.232.144` | [http://20.6.232.144:3000](http://20.6.232.144:3000) | CI/CD Integration & Cypress |
 | **Development** | `dev-vm` | `20.2.212.31` | [http://20.2.212.31:3000](http://20.2.212.31:3000) | Developer Feature Sandbox |
->>>>>>> 8cd802adce50c739cc448eabcaea4b7192222d12
 
 ---
 
