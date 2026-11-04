@@ -23,6 +23,11 @@ const pool = new Pool({
     port: process.env.DB_PORT || 5432,
 });
 
+// Force all database connections to use Malaysia Standard Time (GMT+8)
+pool.on('connect', (client) => {
+    client.query("SET timezone = 'Asia/Kuala_Lumpur'");
+});
+
 // Auto-initialize PostgreSQL Schema Safely with Retries
 async function initDB() {
     try {
