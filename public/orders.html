@@ -132,7 +132,7 @@
 
                 container.innerHTML = orders.map(order => {
                     const itemsList = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
-                    const orderDate = order.created_at ? new Date(order.created_at).toLocaleDateString('en-MY', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recently placed';
+                    const orderDate = order.created_at ? new Date(order.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : 'Recently placed';
 
                     return `
                         <div class="bg-stone-950/70 border border-stone-800 p-5 rounded-2xl space-y-4 shadow-lg">
