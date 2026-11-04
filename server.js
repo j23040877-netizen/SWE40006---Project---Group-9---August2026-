@@ -67,8 +67,8 @@ app.post('/api/register', async (req, res) => {
     try {
         const username = email.split('@')[0];
         const result = await pool.query(
-            `INSERT INTO users (name, username, email, password) 
-             VALUES ($1, $2, $3, $4) RETURNING id, name, username, email`,
+            `INSERT INTO users (name, username, email, password, created_at) 
+             VALUES ($1, $2, $3, $4, (CURRENT_TIMESTAMP AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Kuala_Lumpur')) RETURNING id, name, username, email`,
             [name || username, username, email, password]
         );
         res.json({ success: true, user: result.rows[0] });
@@ -159,8 +159,8 @@ app.post('/api/orders', async (req, res) => {
 
     try {
         const result = await pool.query(
-            `INSERT INTO orders (order_number, user_id, items, total_amount)
-             VALUES ($1, $2, $3, $4) RETURNING *`,
+            `INSERT INTO orders (order_number, user_id, items, total_amount, created_at)
+             VALUES ($1, $2, $3, $4, (CURRENT_TIMESTAMP AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Kuala_Lumpur')) RETURNING *`,
             [orderNumber, parseInt(userId, 10), JSON.stringify(items), totalAmount]
         );
         res.json({ success: true, order: result.rows[0] });

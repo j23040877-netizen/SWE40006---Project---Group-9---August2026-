@@ -1,4 +1,4 @@
-SELECT * FROM users ;
+SELECT * FROM users;
 
 -- \echo '----------------------------------------'
 -- \echo '           REGISTERED USERS             '
