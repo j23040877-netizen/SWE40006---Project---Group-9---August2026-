@@ -114,11 +114,16 @@ app.post('/create-checkout-session', async (req, res) => {
             quantity: item.quantity || 1,
         }));
 
+        // Dynamically detect host URL so it works seamlessly on Azure VMs and localhost
+        const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+        const host = req.get('host') || 'localhost:3000';
+        const baseUrl = `${protocol}://${host}`;
+
         const session = await stripe.checkout.sessions.create({
             line_items: lineItems,
             mode: 'payment',
-            success_url: `http://localhost:3000/orders.html?session_id={CHECKOUT_SESSION_ID}&user_id=${userId || ''}`,
-            cancel_url: 'http://localhost:3000/checkout.html',
+            success_url: `${baseUrl}/orders.html?session_id={CHECKOUT_SESSION_ID}&user_id=${userId || ''}`,
+            cancel_url: `${baseUrl}/checkout.html`,
         });
 
         res.json({ url: session.url });
