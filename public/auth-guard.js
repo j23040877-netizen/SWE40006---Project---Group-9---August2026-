@@ -11,7 +11,7 @@ function checkAuth() {
 
     // Extract current page filename
     const currentPage = window.location.pathname.split('/').pop().toLowerCase() || 'index.html';
-    const protectedPages = ['checkout.html', 'orders.html'];
+    const protectedPages = ['orders.html'];
 
     // 2. Guard Check for Protected Pages
     if (protectedPages.includes(currentPage) && (!user || !user.id)) {

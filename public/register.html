@@ -59,7 +59,12 @@
                     // Save full user object (with database id) to currentUser
                     localStorage.setItem('currentUser', JSON.stringify(data.user));
                     alert('Registration successful!');
-                    window.location.href = 'catalog.html';
+                    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                    if (cart.length > 0) {
+                        window.location.href = 'checkout.html';
+                    } else {
+                        window.location.href = 'catalog.html';
+                    }
                 } else {
                     alert('Registration failed: ' + (data.error || 'User already exists'));
                     btn.innerText = 'Create Account';
