@@ -78,8 +78,10 @@
 
                 if (data.success && data.user) {
                     localStorage.setItem('currentUser', JSON.stringify(data.user));
-                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'catalog.html';
-                    window.location.href = redirectUrl;
+                    const redirectParam = new URLSearchParams(window.location.search).get('redirect');
+                    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                    const targetUrl = redirectParam || (cart.length > 0 ? 'checkout.html' : 'catalog.html');
+                    window.location.href = targetUrl;
                 } else {
                     alert('Login failed: ' + (data.error || 'Invalid credentials'));
                     btn.innerText = 'Sign In';

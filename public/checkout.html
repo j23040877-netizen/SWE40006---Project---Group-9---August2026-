@@ -115,10 +115,16 @@
         async function redirectToStripe() {
             if (cart.length === 0) return alert('Your cart is empty!');
 
+            // Require login when placing the order
+            const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (!user || !user.id) {
+                alert('Please log in first to complete your order!');
+                window.location.href = 'login.html?redirect=checkout.html';
+                return;
+            }
+
             const btnText = document.getElementById('btn-text');
             btnText.innerText = 'Connecting to Stripe...';
-
-            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
             try {
                 const response = await fetch('/create-checkout-session', {
