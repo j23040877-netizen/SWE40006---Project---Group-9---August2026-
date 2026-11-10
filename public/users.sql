@@ -1,4 +1,4 @@
-SELECT * FROM orders ORDER BY id DESC LIMIT 1;
+SELECT * FROM users;
 
 -- \echo '----------------------------------------'
 -- \echo '           REGISTERED USERS             '
