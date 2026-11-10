@@ -116,8 +116,8 @@
             if (cart.length === 0) return alert('Your cart is empty!');
 
             // Require login when placing the order
-            const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
-            if (!user || !user.id) {
+            const activeUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (!activeUser || !activeUser.id) {
                 alert('Please log in first to complete your order!');
                 window.location.href = 'login.html?redirect=checkout.html';
                 return;
@@ -132,7 +132,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         items: cart,
-                        userId: user.id || null 
+                        userId: activeUser.id || null 
                     })
                 });
 

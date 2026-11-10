@@ -32,7 +32,7 @@
                     <h1 class="text-2xl sm:text-3xl font-extrabold text-stone-100">Coffee & Treats Catalog</h1>
                     <p class="text-xs text-stone-400">Select your artisanal roasts, fresh bakes, and proceed to checkout.</p>
                 </div>
-                <a href="checkout.html" onclick="goToCheckout(event)" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-2 rounded-xl transition flex items-center gap-2 shadow-md text-sm">
+                <a href="checkout.html" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-2 rounded-xl transition flex items-center gap-2 shadow-md text-sm">
                     <span>Go to Checkout</span>
                     <i class="fa-solid fa-cart-shopping text-xs"></i>
                 </a>
@@ -261,12 +261,7 @@
         }
 
         function goToCheckout(event) {
-            const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
-            if (!user) {
-                event.preventDefault();
-                alert('Please log in first before going to checkout!');
-                window.location.href = 'login.html';
-            }
+            // Allow guests to proceed to checkout directly
         }
     </script>
 </body>
