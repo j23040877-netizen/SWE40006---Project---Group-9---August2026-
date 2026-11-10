@@ -125,7 +125,7 @@
             const btnText = document.getElementById('btn-text');
             btnText.innerText = 'Connecting to Stripe...';
 
-            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const activeUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
             if (cart.length === 0) {
                 alert('Your cart is empty!');
