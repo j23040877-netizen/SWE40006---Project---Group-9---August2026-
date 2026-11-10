@@ -115,8 +115,8 @@
         async function redirectToStripe() {
             if (cart.length === 0) return alert('Your cart is empty!');
             
-            const user = JSON.parse(localStorage.getItem('currentUser') || '{null}');
-            if (!user || !user.id) {
+            const activeUser = JSON.parse(localStorage.getItem('currentUser') || '{null}');
+            if (!activeUser || !activeUser.id) {
                 alert('You must be logged in to proceed to checkout.');
                 window.location.href = 'login.html';
                 return;
@@ -125,7 +125,7 @@
             const btnText = document.getElementById('btn-text');
             btnText.innerText = 'Connecting to Stripe...';
 
-            const activeUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
             if (cart.length === 0) {
                 alert('Your cart is empty!');
@@ -137,7 +137,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         items: cart,
-                        userId: user.id || null 
+                        userId: activeUser.id || null 
                     })
                 });
 
