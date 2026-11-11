@@ -114,22 +114,11 @@
 
         async function redirectToStripe() {
             if (cart.length === 0) return alert('Your cart is empty!');
-            
-            const activeUser = JSON.parse(localStorage.getItem('currentUser') || '{null}');
-            if (!activeUser || !activeUser.id) {
-                alert('You must be logged in to proceed to checkout.');
-                window.location.href = 'login.html';
-                return;
-            }
 
             const btnText = document.getElementById('btn-text');
             btnText.innerText = 'Connecting to Stripe...';
 
             const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-            }
 
             try {
                 const response = await fetch('/create-checkout-session', {
@@ -137,7 +126,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         items: cart,
-                        userId: activeUser.id || null 
+                        userId: user.id || null 
                     })
                 });
 
